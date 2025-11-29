@@ -29,13 +29,20 @@ JQ/
 │   ├── get_stock_list.py    # 获取股票列表
 │   ├── get_trading_date.py  # 交易日工具
 │   └── get_stock_ud.py      # 涨跌停状态
-├── Financial/                # 财务数据分析
 ├── auth.py                   # 用户认证
+├── get_all_trading_days.py # 获取交易日历
+├── get_all_securities.py  # 获取证券信息
+├── bond_zh_us_rate.py      # 获取中美国债收益率
 ├── get_price.py             # 获取股票行情
 ├── get_valuation.py         # 获取估值数据
-├── get_dividend_new.py      # 获取分红数据
+├── get_dividend.py          # 获取分红数据
 ├── get_money_flow.py        # 获取资金流向
 ├── financial_query.py       # 财务报表查询
+├── get_stock_industry.py   # 获取行业分类
+├── get_stock_concept.py    # 获取概念板块
+├── get_index_stocks.py     # 获取成分股
+├── get_mtss.py              # 获取融资融券数据
+├── ...                     # 其他数据获取模块
 └── README.md                # 项目说明
 ```
 
