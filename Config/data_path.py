@@ -18,6 +18,7 @@ DATABASE_PATHS = {
     'all_trading_days_csv': os.path.join(DATABASE_ROOT, 'all_trading_days.csv'),
     # 股票数据
     'stock_price': os.path.join(DATABASE_ROOT, 'stock_price'),
+    'stock_post_factor': os.path.join(DATABASE_ROOT, 'stock_post_factor'),
     'stock_valuation': os.path.join(DATABASE_ROOT, 'stock_valuation'),
     'stock_industry': os.path.join(DATABASE_ROOT, 'stock_industry'),
     'stock_concept': os.path.join(DATABASE_ROOT, 'stock_concept'),

@@ -11,7 +11,13 @@ def _prepare_dividend_dir():
     """公共准备函数"""
     save_dir = get_path('dividend')
     os.makedirs(save_dir, exist_ok=True)
-    stock_list = pd.read_csv(...)['code'].tolist()
+    
+    # 使用jqdatasdk获取所有股票列表
+    stock_list_df = jq.get_all_securities(types=['stock'], date=None)
+    stock_list_df.index.name = 'code'
+    stock_list_df = stock_list_df.reset_index()
+    stock_list = stock_list_df['code'].tolist()
+    
     return save_dir, stock_list
 
 def _log_dividend_operation(save_dir, operation, date_info):
@@ -76,9 +82,9 @@ def _deduplicate_dividend(new_df, existing_df):
 def get_dividend(end_date):
     """获取截至end_date的历史分红信息"""
     save_dir, stock_list = _prepare_dividend_dir()
-    print(f"获取到 {len(stock_list)} 只股票")
-    
-    for code in stock_list:
+
+    # for code in stock_list:
+    for code in stock_list[:2]: # 测试用，只获取前1只股票
         try:
             q = jq.query(finance.STK_XR_XD).filter(
                 finance.STK_XR_XD.code == code,
@@ -104,12 +110,14 @@ def get_dividend(end_date):
 def get_dividend_delta(last_date):
     """从last_date之后获取增量分红数据"""
     save_dir, stock_list = _prepare_dividend_dir()
-    print(f"获取到 {len(stock_list)} 只股票")
+    print(f"开始增量更新，从 {last_date} 之后的数据")
+    print(f"将检查 {len(stock_list[:2])} 只股票的增量数据")
     
     # 确认last_date是字符串
     last_date = pd.to_datetime(last_date).strftime('%Y-%m-%d')
     
-    for code in stock_list:
+    # for code in stock_list:
+    for code in stock_list[:2]: # 测试用，只获取前2只股票
         try:
             # 使用 > 而不是 >=
             q = jq.query(finance.STK_XR_XD).filter(
@@ -119,6 +127,7 @@ def get_dividend_delta(last_date):
             new_df = jq.finance.run_query(q)
             
             if new_df.empty:
+                print(f"{code} 无新增分红数据（查询条件：report_date > {last_date}）")
                 continue  # 无新增数据，跳过
                 
             file_path = os.path.join(save_dir, f"{code}.csv")
@@ -147,5 +156,7 @@ def get_dividend_delta(last_date):
     _log_dividend_operation(save_dir, "增量更新", f"{last_date} -> {current_date}")
 
 if __name__ == '__main__':
-    get_dividend('2025-06-15')
-    get_dividend_delta('2025-06-15')
+    # 全量更新，输入结束日期
+    # get_dividend('2025-08-27')
+    # 增量更新，输入上一次更新日期
+    get_dividend_delta('2025-08-27')

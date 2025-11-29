@@ -206,6 +206,7 @@ config.py
 
 # 认证文件
 auth_config.py
+Config/config.py
 credentials.*
 
 # JQData相关

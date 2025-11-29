@@ -68,18 +68,75 @@ def get_daily_price(start_date, end_date, frequency, fields, skip_paused, fq, pa
         else:
             print(f"{trading_date} 无价格数据，跳过保存")
 
+def get_post_factor(end_date):
+    """
+    获取后复权因子
+    每天都要更新一遍全量数据
+    """
+    # 获取交易日列表
+    start_date = '2024-08-22' # 起始日期，可以根据需要调整
+    trading_dates = get_trading_dates(start_date, end_date)
+    print(f"交易日范围: {len(trading_dates)} 个交易日")
+    
+    for trading_date in trading_dates:
+        # 获取当前交易日的股票列表
+        stock_list = get_stock_list(trading_date)
+        # print(stock_list[:10])
+        frequency='daily'
+        fields=['factor']
+        skip_paused=False
+        fq ='post'
+        panel=False
+        fill_paused=True
+
+        # 获取当前交易日的价格数据
+        df = jq.get_price(stock_list, start_date=trading_date, end_date=trading_date,
+                        frequency=frequency, fields=fields, skip_paused=skip_paused,
+                        fq=fq, panel=panel, fill_paused=fill_paused)
+        
+        if df is not None and not df.empty:
+            # 处理Panel格式
+            if panel:
+                df = df.to_frame()
+            
+            # 确保有日期列
+            if 'date' not in df.columns:
+                df = df.reset_index()
+                if 'time' in df.columns:
+                    df = df.rename(columns={'time': 'date'})
+                elif 'index' in df.columns:
+                    df = df.rename(columns={'index': 'date'})
+            
+            print(f"获取到 {trading_date} 的价格数据: {len(df)} 条记录")
+            if not df.empty:
+                print(df.head(5))
+            
+            # 删除多余的index列
+            if 'index' in df.columns:
+                df = df.drop('index', axis=1)
+            
+            # 保存数据
+            save_dir = get_path('stock_post_factor')
+            filename = f"{trading_date}.csv"
+            save_path = os.path.join(save_dir, filename)
+            df.to_csv(save_path, index=False, encoding='utf-8-sig')
+            print(f"价格数据已保存至: {save_path}")
+        else:
+            print(f"{trading_date} 无价格数据，跳过保存")
+
 if __name__ == "__main__":
     # 参数设置
     frequency = 'daily' # 日线
     fields = ['open', 'close', 'low', 'high', 'volume', 'money', 'factor', 'high_limit', 'low_limit', 'avg', 'pre_close', 'paused']
     skip_paused = False # 不跳过停牌
-    fq = 'post' # 后复权
+    fq = None # 不复权，回测时需要根据复权因子计算后复权
     panel = False # 不返回Panel对象
     fill_paused = True # 填充停牌数据
     
     print("=== 按时间区间获取价格数据===")
-    start_date = '2025-08-21'
-    end_date = '2025-08-27'
+    start_date = '2025-08-28'
+    end_date = '2025-08-28'
     result1 = get_daily_price(start_date=start_date, end_date=end_date,
                                 frequency=frequency, fields=fields, skip_paused=skip_paused,
                                 fq=fq, panel=panel, fill_paused=fill_paused)
+    factor = get_post_factor(end_date)
