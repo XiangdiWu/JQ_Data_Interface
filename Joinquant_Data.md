@@ -70,23 +70,20 @@
 
 ### JoinQuant财务数据获取
 
-| 类别             | 聚宽方法                  | 聚宽数据源   | 代码文件                  | 采纳情况  | 备注 | Akshare数据源 |
-| --------------- | ------------------------ | ------- | --------------------- | ----- | -- | ---------- |
-| 金融公司财务报表（报告期）   | finance.run_query        | ✅ 完成    | financial_query.py    | ✅ 采纳  |    |            |
-| 金融公司财务报表（季度）    | get_fundamentals+query   | ❌ 获取失败  | financial_data_old.py | ❌ 不采纳 |    |            |
-| 金融公司财务报表（季度）    | get_history_fundamentals |         | financial_data.py     | ✅ 采纳  |    |            |
-| 金融公司财务报表（年度）    | get_fundamentals+query   |         |                       | ❌ 不采纳 |    |            |
-| 金融公司财务报表（年度）    | get_history_fundamentals |         | 未完成                   | ✅ 采纳  |    |            |
-| 普通公司财务报表（报告期）   | finance.run_query        | ❌ 权限未明确 | financial_query.py    | ❌ 不采纳 |    |            |
-| 普通公司财务报表（报告期）   | 未知                       | 未知      | 未完成                   |       |    |            |
-| 普通公司财务报表（季度）    | get_fundamentals+query   | ❌ 获取失败  | financial_data_old.py | ❌ 不采纳 |    |            |
-| 普通公司财务报表（季度）    | get_history_fundamentals |         | financial_data.py     | ✅ 采纳  |    |            |
-| 普通公司财务报表（年度）    | get_fundamentals+query   |         | 未完成                   | ❌ 不采纳 |    |            |
-| 普通公司财务报表（年度）    | get_history_fundamentals |         | 未完成                   | ✅ 采纳  |    |            |
-| 金融公司财务指标（普通-季度） |                          |         |                       |       |    |            |
-| 金融公司财务指标（普通-年度） |                          |         |                       |       |    |            |
-| 银行公司财务指标（年度）    |                          |         |                       |       |    |            |
-| 券商公司财务指标（年度）    |                          |         |                       |       |    |            |
-| 保险公司财务指标（年度）    |                          |         |                       |       |    |            |
-| 普通公司财务指标（季度）    |                          | ✅ 完成    | financial_data_new.py | ✅ 采纳  |    |            |
-| 普通公司财务指标（年度）    |                          |         | 未完成                   | ✅ 采纳
+| 类别             | 聚宽方法                     | 聚宽数据源   | 代码文件                                | 采纳情况  | 备注             |
+| -------------- | ------------------------ | ------- | ----------------------------------- | ----- | -------------- |
+| 普通公司财务报表（报告期）  | 未知                       | 未知      | 未完成                                 | ✅ 采纳  | 待解决          |
+| 普通公司财务报表（报告期）  | finance.run_query        | ❌ 权限未明确 | financial_query.py                  | ❌ 不采纳 |                |
+| 金融公司财务报表（报告期）  | finance.run_query        | ✅ 完成    | financial_query.py                  | ✅ 采纳  | 可查询范围（金融行业）不明确 |
+| 全部上市公司财务报表（季度） | get_history_fundamentals | ✅ 完成    | financial_data_quarter.py           | ✅ 采纳  |                |
+| 全部上市公司财务指标（季度） | get_history_fundamentals | ✅ 完成    | financial_data_quarter.py           | ✅ 采纳  |                |
+| 全部上市公司财务报表（年度） | get_history_fundamentals | 字段未定义   | financial_data_annual.py            | ✅ 采纳  | 待解决          |
+| 全部上市公司财务指标（年度） | get_history_fundamentals | 字段未定义   | financial_data_annual.py            | ✅ 采纳  | 待解决          |
+| 银行公司财务指标（年度）   | get_history_fundamentals | ❌ 返回空表  | finance_company_indicator_annual.py | ❌ 不采纳 |                |
+| 券商公司财务指标（年度）   | get_history_fundamentals | ❌ 返回空表  | finance_company_indicator_annual.py | ❌ 不采纳 |                |
+| 保险公司财务指标（年度）   | get_history_fundamentals | ❌ 返回空表  | finance_company_indicator_annual.py | ❌ 不采纳 |                |
+|                |                          |         |                                     |       |                |
+| 普通公司财务报表（季度）   | get_fundamentals+query   | ❌ 获取失败  | financial_data_old.py               | ❌ 不采纳 |                |
+| 金融公司财务报表（季度）   | get_fundamentals+query   | ❌ 获取失败  | financial_data_old.py               | ❌ 不采纳 |                |
+| 普通公司财务报表（年度）   | get_fundamentals+query   | ❌ 不必完成  | 不必完成                                | ❌ 不采纳 |                |
+| 金融公司财务报表（年度）   | get_fundamentals+query   | ❌ 不必完成  | 不必完成                                | ❌ 不采纳 |                |
